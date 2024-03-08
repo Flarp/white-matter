@@ -14,11 +14,11 @@ describe('gray-matter', function() {
     assert.deepEqual(actual.data.abc, 'xyz');
   });
 
-  it('should cache original string as a buffer on the "orig property"', function() {
+  it('should cache original string as a string on the "orig property"', function() {
     var fixture = '---\nabc: xyz\n---';
     var actual = matter(fixture);
-    assert(utils.isBuffer(actual.orig));
-    assert.equal(actual.orig.toString(), fixture);
+    assert((typeof actual.orig) === "string");
+    assert.equal(actual.orig, fixture);
   });
 
   it('extra characters should throw parsing errors', function() {

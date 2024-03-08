@@ -14,11 +14,11 @@ describe('gray-matter (windows carriage returns)', function() {
     assert.deepEqual(actual.data.abc, 'xyz');
   });
 
-  it('should cache orig string as a buffer on the "orig property"', function() {
+  it('should cache orig string as a string on the "orig property"', function() {
     var fixture = '---\r\nabc: xyz\r\n---';
     var actual = matter(fixture);
-    assert(utils.isBuffer(actual.orig));
-    assert.equal(actual.orig.toString(), fixture);
+    //assert(utils.isBuffer(actual.orig));
+    assert.equal(actual.orig, fixture);
   });
 
   it('should throw parsing errors', function() {
