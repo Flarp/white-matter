@@ -10,6 +10,7 @@
 var path = require('path');
 var assert = require('assert');
 var matter = require('..');
+const fs = require('fs')
 var extend = require('extend-shallow');
 var coffee = require('coffeescript');
 var fixture = path.join.bind(path, __dirname, 'fixtures');
@@ -25,7 +26,8 @@ var defaults = {
 };
 
 function parse(name, options) {
-  return matter.read(fixture(name), extend({}, defaults, options));
+  const str = fs.readFileSync(fixture(name), 'utf8');
+  return matter(str, extend({}, defaults, options));
 }
 
 describe('parse cson:', function() {

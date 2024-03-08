@@ -9,10 +9,16 @@
 
 var assert = require('assert');
 var matter = require('..');
+const fs = require('fs')
+
+const read = filepath => {
+  const str = fs.readFileSync(filepath, 'utf8');
+  return matter(str);
+}
 
 describe('parse json:', function() {
   it('should parse JSON front matter.', function() {
-    var actual = matter.read('./test/fixtures/lang-json.md', {
+    var actual = read('./test/fixtures/lang-json.md', {
       lang: 'json'
     });
 
@@ -23,7 +29,7 @@ describe('parse json:', function() {
   });
 
   it('should auto-detect JSON as the language.', function() {
-    var actual = matter.read('./test/fixtures/autodetect-json.md');
+    var actual = read('./test/fixtures/autodetect-json.md');
 
     assert.equal(actual.data.title, 'autodetect-JSON');
     assert(actual.hasOwnProperty('data'));

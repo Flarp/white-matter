@@ -10,9 +10,15 @@
 var assert = require('assert');
 var matter = require('../');
 
+const fs = require('fs')
+const read = (filepath, options) => {
+  const str = fs.readFileSync(filepath, 'utf8');
+  return matter(str, options);
+}
+
 describe('parse javascript:', function() {
   it('should parse front matter when options.lang is javascript', function() {
-    var file = matter.read('./test/fixtures/lang-javascript-object-fn.md', {
+    var file = read('./test/fixtures/lang-javascript-object-fn.md', {
       lang: 'javascript'
     });
 
@@ -24,7 +30,7 @@ describe('parse javascript:', function() {
   });
 
   it('should parse front matter when options.language is js', function() {
-    var file = matter.read('./test/fixtures/lang-javascript-object-fn.md', {
+    var file = read('./test/fixtures/lang-javascript-object-fn.md', {
       language: 'js'
     });
 
@@ -36,12 +42,12 @@ describe('parse javascript:', function() {
   });
 
   it('should eval functions', function() {
-    var file = matter.read('./test/fixtures/lang-javascript-fn.md', {language: 'js'});
+    var file = read('./test/fixtures/lang-javascript-fn.md', {language: 'js'});
     assert.equal(typeof file.data, 'function');
   });
 
   it('should detect "javascript" after the first delimiter', function() {
-    var file = matter.read('./test/fixtures/autodetect-javascript.md');
+    var file = read('./test/fixtures/autodetect-javascript.md');
     assert.equal(file.data.title, 'autodetect-javascript');
     assert.equal(file.data.title, 'autodetect-javascript');
     assert(file.hasOwnProperty('data'));

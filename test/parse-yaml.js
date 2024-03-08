@@ -9,10 +9,16 @@
 
 var assert = require('assert');
 var matter = require('..');
+const fs = require('fs')
+
+const read = filepath => {
+  const str = fs.readFileSync(filepath, 'utf8');
+  return matter(str);
+}
 
 describe('parse YAML:', function() {
   it('should parse YAML', function() {
-    var file = matter.read('./test/fixtures/all.yaml');
+    var file = read('./test/fixtures/all.yaml');
     assert.deepEqual(file.data, {
       one: 'foo',
       two: 'bar',
@@ -21,7 +27,7 @@ describe('parse YAML:', function() {
   });
 
   it('should parse YAML with closing ...', function() {
-    var file = matter.read('./test/fixtures/all-dots.yaml');
+    var file = read('./test/fixtures/all-dots.yaml');
     assert.deepEqual(file.data, {
       one: 'foo',
       two: 'bar',
@@ -30,7 +36,7 @@ describe('parse YAML:', function() {
   });
 
   it('should parse YAML front matter', function() {
-    var actual = matter.read('./test/fixtures/lang-yaml.md');
+    var actual = read('./test/fixtures/lang-yaml.md');
     assert.equal(actual.data.title, 'YAML');
     assert(actual.hasOwnProperty('data'));
     assert(actual.hasOwnProperty('content'));
@@ -38,7 +44,7 @@ describe('parse YAML:', function() {
   });
 
   it('should detect YAML as the language with no language defined after the first fence', function() {
-    var actual = matter.read('./test/fixtures/autodetect-no-lang.md');
+    var actual = read('./test/fixtures/autodetect-no-lang.md');
     assert.equal(actual.data.title, 'autodetect-no-lang');
     assert(actual.hasOwnProperty('data'));
     assert(actual.hasOwnProperty('content'));
@@ -46,7 +52,7 @@ describe('parse YAML:', function() {
   });
 
   it('should detect YAML as the language', function() {
-    var actual = matter.read('./test/fixtures/autodetect-yaml.md');
+    var actual = read('./test/fixtures/autodetect-yaml.md');
     assert.equal(actual.data.title, 'autodetect-yaml');
     assert(actual.hasOwnProperty('data'));
     assert(actual.hasOwnProperty('content'));

@@ -1,6 +1,5 @@
 'use strict';
 
-const fs = require('fs');
 const sections = require('section-matter');
 const defaults = require('./lib/defaults');
 const stringify = require('./lib/stringify');
@@ -160,26 +159,6 @@ matter.engines = engines;
 matter.stringify = function(file, data, options) {
   if (typeof file === 'string') file = matter(file, options);
   return stringify(file, data, options);
-};
-
-/**
- * Synchronously read a file from the file system and parse
- * front matter. Returns the same object as the [main function](#matter).
- *
- * ```js
- * const file = matter.read('./content/blog-post.md');
- * ```
- * @param {String} `filepath` file path of the file to read.
- * @param {Object} `options` [Options](#options) to pass to gray-matter.
- * @return {Object} Returns [an object](#returned-object) with `data` and `content`
- * @api public
- */
-
-matter.read = function(filepath, options) {
-  const str = fs.readFileSync(filepath, 'utf8');
-  const file = matter(str, options);
-  file.path = filepath;
-  return file;
 };
 
 /**
